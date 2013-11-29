@@ -26,3 +26,5 @@ delete from defendantattorneydetails;
 delete from defendantinformation;
 delete from defendantinsurancedetails;
 delete from statuteinformation;
+
+test
