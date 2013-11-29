@@ -1,0 +1,866 @@
+﻿<Window x:Class="CaseControl.ClientInformation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Client Information" WindowState="Maximized" 
+        mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Height="920" Width="1250" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+    
+    <Window.Background>
+        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+            <GradientStop Color="#FFD3D3F4" Offset="0" />
+            <GradientStop Color="White" Offset="1" />
+        </LinearGradientBrush>
+    </Window.Background>
+    <DockPanel>
+        <Grid DockPanel.Dock="Left" Width="300" HorizontalAlignment="Left" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" Grid.Column="0" Content="Refresh"  Width="75" Name="btnRefresh" Click="btnRefresh_Click" />
+            <TextBox Grid.Row="1" Text="Search"  Name="txtSearch" TextChanged="txtSearch_TextChanged" GotFocus="txtSearch_GotFocus" LostFocus="txtSearch_LostFocus"></TextBox>
+            <DataGrid AutoGenerateColumns="False" Grid.Row="2" Height="430" HorizontalAlignment="Left" Margin="0,5,0,0" Name="dgClientFileList" VerticalAlignment="Top" Width="290" SelectionChanged="dgClientFileList_SelectionChanged" ItemsSource="{Binding}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" ></DataGridTextColumn>
+                    <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" SortDirection="Descending"></DataGridTextColumn>
+                    <DataGridTextColumn Header="File No." Binding="{Binding FileID}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <ComboBox Grid.Row="3" Height="23" HorizontalAlignment="Left" Margin="129,9,0,0" Name="cmbActivityFilter" VerticalAlignment="Top" Width="120" SelectionChanged="cmbActivityFilter_SelectionChanged" SelectedIndex="0">
+                <ComboBoxItem Content="Active" IsSelected="True" />
+                <ComboBoxItem Content="All" />
+                <ComboBoxItem Content="Inactive" />
+            </ComboBox>
+            <Label Content="Filter clients by Status:" Grid.Row="3" Height="28" HorizontalAlignment="Left" Margin="6,10,0,0" Name="label2" VerticalAlignment="Top" />
+        </Grid>
+        <Grid DockPanel.Dock="Top" Height="30" VerticalAlignment="Top" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="1" Grid.Column="0" Content="Home" Margin="10,0,0,0" Width="75" Name="btnHome" Click="btnHome_Click" />
+            <Button Grid.Row="1" Grid.Column="1" Content="Add Client" Margin="10,0,0,0" Width="75" Name="btnAddNewClient" Click="btnAddNewClient_Click" />
+            <!--<Button Grid.Row="1" Grid.Column="2" Content="Edit Client" Width="75" Margin="10,0,0,0" Name="btnEditClient" Click="btnEditClient_Click" />-->
+            <Button Grid.Row="1" Grid.Column="3" Content="Cancel" Margin="10,0,0,0" Width="75" Name="btnCancelEdit" Click="btnCancelEdit_Click" />
+            <Button Grid.Row="1" Grid.Column="4" Content="Save" Margin="10,0,0,0" Name="btnSaveClient" Width="75" Click="btnSaveClient_Click"  />
+            <Button Grid.Row="1" Grid.Column="5" Content="Close Client" Margin="10,0,0,0" Name="btnCloseClient" Width="75" Click="btnCloseClient_Click" />
+            <Button Grid.Row="1" Grid.Column="6" Content="Re-Activate Closed Client" Width="150" Margin="10,0,0,0" Name="btnReactivateClient" Click="btnReactivateClient_Click" />
+            <Button Grid.Row="1" Grid.Column="7" Content="Expand All" Margin="10,0,0,0" Click="btnExpandCollapse_Click" Width="75" Name="btnExpandCollapse" />
+            <Button Grid.Row="1" Grid.Column="8" Content="Billing" Margin="10,0,0,0" Width="75" Name="btnClientBilling" Click="btnClientBilling_Click" />
+            <Button Grid.Row="1" Grid.Column="9" Content="Reports" Margin="10,0,0,0"  Width="75" Name="btnClientReports" Click="btnClientReports_Click" />
+            <Button Grid.Row="1" Grid.Column="10" Content="Close" Margin="10,0,0,0" Width="75" Name="btnClose" Click="btnClose_Click" />
+        </Grid>
+        <ScrollViewer Margin="0,20,0,0">
+            <DockPanel>
+                <Grid DockPanel.Dock="Top" Height="334">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="4*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="86" />
+                        <ColumnDefinition Width="167" />
+                        <ColumnDefinition Width="83" />
+                        <ColumnDefinition Width="143" />
+                        <ColumnDefinition Width="129" />
+                        <ColumnDefinition Width="176" />
+                        <ColumnDefinition Width="128*" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <Label Content="General Section" FontWeight="Bold" FontSize="13" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" Height="28" HorizontalAlignment="Left"  Name="label1" VerticalAlignment="Top" />
+                    <Grid Grid.ColumnSpan="3" Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Row="0" Grid.Column="0" Content="Edit Section" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnEditGeneralClient" Click="btnEditGeneralClient_Click" Foreground="#FFFFFFFF" Template="{DynamicResource GlassButton}" />
+                        <Button Grid.Row="0" Grid.Column="1" Content="Cancel" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnCancelEditGeneralClient" Click="btnCancelEditGeneralClient_Click" Foreground="#FFFFFFFF" Template="{DynamicResource GlassButton}"/>
+                        <Button Grid.Row="0" Grid.Column="2" Content="Save" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Left" Name="btnSaveEditGeneralClient" Click="btnSaveEditGeneralClient_Click" />
+                    </Grid>
+
+                    <Label Content="File No." Grid.Row="2" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="label10" VerticalAlignment="Top" />
+                    <TextBox Style="{StaticResource textBoxNormalStyle}" Height="23" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" Name="txtFileNo" VerticalAlignment="Top" Width="120"  LostFocus="txtFileNo_LostFocus" />
+                    <Label Content="Last Name" Height="28"  HorizontalAlignment="Left" Grid.Row="3" Grid.Column="0" Name="label11" VerticalAlignment="Top" />
+                    <TextBox Style="{StaticResource textBoxNormalStyle}" Height="23" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1" Name="txtLastName" VerticalAlignment="Top" Width="120" LostFocus="txtLastName_LostFocus" />
+                    <Label Content="First Name" Height="28" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="0" Name="label12" VerticalAlignment="Top" />
+                    <TextBox Style="{StaticResource textBoxNormalStyle}" Height="23" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="1" Name="txtFirstName" VerticalAlignment="Top" Width="120" LostFocus="txtFirstName_LostFocus" />
+                    <Label Content="Case Type" Height="28" HorizontalAlignment="Left" Grid.Row="5" Grid.Column="0" Name="label13" VerticalAlignment="Top" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Grid.Row="5" Grid.Column="1" Name="cmbCaseType" VerticalAlignment="Top" Width="120" Background="White"></ComboBox>
+                    <Label Content="Other Type" Height="28" HorizontalAlignment="Left" Grid.Row="6" Grid.Column="0" Name="label14" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="6" Grid.Column="1" Name="txtOtherCaseType" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Case Status" Height="28" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" Name="label15" VerticalAlignment="Top" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="1" Name="cmbCaseStatus" VerticalAlignment="Top" Width="120" >
+                    </ComboBox>
+                    <Label Content="Accident Date" Height="28" HorizontalAlignment="Left" Grid.Row="8" Grid.Column="0" Name="label16" VerticalAlignment="Top" />
+                    <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="8" Grid.Column="1" Name="dtAccidentDate" VerticalAlignment="Top" Width="120" SelectedDateChanged="dtAccidentDate_SelectedDateChanged" />
+                    <Label Content="Client Created" Height="28" HorizontalAlignment="Left" Grid.Row="9" Grid.Column="0" Name="lblClientCreatedCaption" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="9" Grid.Column="1" Name="txtClientCreated"  VerticalAlignment="Top" Width="120" />
+                    <Label Content="Email" Height="28" HorizontalAlignment="Left" Grid.Row="10" Grid.Column="0" Name="lblEmail" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="10" Grid.Column="1" Name="txtEmail"  VerticalAlignment="Top" Width="120" />
+                    <Label Content="Address" Grid.Row="2" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="label17" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="3" Name="txtAddress" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Suite/Apt No." Grid.Row="3" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblSuit" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="3" Name="txtSuiteAddress" VerticalAlignment="Top" Width="120" />
+                    <Label Content="City" Grid.Row="4" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="label18" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="3" Name="txtCity" VerticalAlignment="Top" Width="120" />
+                    <Label Content="State" Grid.Row="5" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="label19" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="5" Grid.Column="3" Name="txtState" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Home Phone" Grid.Row="6" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="label20" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="6" Grid.Column="3" Name="txtHomePhone" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Cell Phone" Grid.Row="7" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="label21" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="3" Name="txtCellPhone" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Work Phone" Grid.Row="8" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblWorkPhone" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="166,0,0,0" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="8" Grid.Column="3" Name="txtWorkPhone" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Driving License" Grid.Row="9" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="label22" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="9" Grid.Column="3" Name="txtDrivingLicense" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Date Of Birth" Grid.Row="10" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="label23" VerticalAlignment="Top" />
+                    <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="10" Grid.Column="3" Name="dtDateOfBirth" VerticalAlignment="Top" Width="120" />
+                    <Label Content="SSN" Grid.Row="10" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="label24" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="10" Grid.Column="5" Name="txtSSN" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Intial Case Information" Grid.Row="2" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="label25" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="5" Name="txtInitialCaseInformation" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Defendant Name" Grid.Row="3" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="label26" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="5" Name="txtDefendantName" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Evidence 1" Grid.Row="4" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="label27" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="5" Name="txtEvidence1" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Evidence 2" Grid.Row="5" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="label28" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="5" Grid.Column="5" Name="txtEvidence2" VerticalAlignment="Top" Width="120" />
+                    <Button Content="View All Evidence" Grid.Row="6" Grid.Column="5" Height="25" HorizontalAlignment="Left" IsEnabled="False" Name="btnViewAllEvidence" VerticalAlignment="Top" Width="122" Click="btnViewAllEvidence_Click" />
+                    <Label Content="Originating Attorney" Grid.Row="7" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="label29" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="5" Name="txtOriginatingAttorney" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Assigned Attorney" Grid.Row="8" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="label30" VerticalAlignment="Top" />
+                    <TextBox Style="{StaticResource textBoxNormalStyle}" Height="23" HorizontalAlignment="Left" Grid.Row="8" Grid.Column="5" Name="txtAssignedAttorney" VerticalAlignment="Top" Width="120" LostFocus="txtAssignedAttorney_LostFocus" />
+                    <Label Content="Refferal" Grid.Row="9" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="label31" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="9" Grid.Column="5" Name="txtRefferal" VerticalAlignment="Top" Width="120" />
+                </Grid>
+                <Expander Margin="0,10,0,0" Header="Additional Client Information" DockPanel.Dock="Top" 
+                          VerticalAlignment="Top"  Name="exdAdditionalClientInformation"  
+                          FontWeight="Bold" FontSize="13" 
+                          Expanded="exdAdditionalClientInformation_Expanded">
+                        <Grid Height="270" VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="95" />
+                            <ColumnDefinition Width="129" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.ColumnSpan="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Edit Section" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnEditAdditionalClientInfo" Click="btnEditAdditionalClientInfo_Click" />
+                            <Button Grid.Row="0" Grid.Column="1" Content="Cancel" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnCancelAdditionalClientInfo" Click="btnCancelAdditionalClientInfo_Click" />
+                            <Button Grid.Row="0" Grid.Column="2" Content="Save" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnSaveAdditionalClientInfo" Click="btnSaveAdditionalClientInfo_Click" />
+                        </Grid>
+                        <Label Content="Client Occupation" Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblClientOccupation" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientOccupation" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Employer" Grid.Row="2" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblEmployer" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"  Name="txtEmployer" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Address" Grid.Row="3" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblAddress" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientEmployerAddress" VerticalAlignment="Top" Width="120" />
+                        <Label Content="City" Grid.Row="4" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblCity" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientEmployerCity" VerticalAlignment="Top" Width="120" />
+                        <Label Content="State" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblState" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientEmployerState" VerticalAlignment="Top" Width="120" />
+                        <Expander Header="Spouse Information" Grid.Row="1" Grid.Column="2" Name="exdSpouseInfo"  Grid.RowSpan="8" FontWeight="Bold" FontSize="13">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="30"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="95" />
+                                            <ColumnDefinition Width="129" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Last Name" Grid.Row="0" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblSpouseLastName" VerticalAlignment="Top" />
+                                        <TextBox Height="23" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientSpousLastName" VerticalAlignment="Top" Width="120" />
+                                        <Label Content="First Name" Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblSpouseFirstName" VerticalAlignment="Top" />
+                                        <TextBox Height="23" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientSpousFirstName" VerticalAlignment="Top" Width="120" />
+                                        <Label Content="Spouse Occupation" Grid.Row="2" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblClientSpousOccupation" VerticalAlignment="Top" />
+                                        <TextBox Height="23" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientSpousOccupation" VerticalAlignment="Top" Width="120" />
+                                        <Label Content="Employer" Grid.Row="3" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblSpouseEmployer" VerticalAlignment="Top" />
+                                        <TextBox Height="23" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"  Name="txtSpouseEmployer" VerticalAlignment="Top" Width="120" />
+                                        <Label Content="Address" Grid.Row="4" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblSpouseAddress" VerticalAlignment="Top" />
+                                        <TextBox Height="23" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientSpouseEmployerAddress" VerticalAlignment="Top" Width="120" />
+                                        <Label Content="City" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblSpouseCity" VerticalAlignment="Top" />
+                                        <TextBox Height="23" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientSpouseEmployerCity" VerticalAlignment="Top" Width="120" />
+                                        <Label Content="State" Grid.Row="6" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblSpouseState" VerticalAlignment="Top" />
+                                        <TextBox Height="23" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientSpouseEmployerState" VerticalAlignment="Top" Width="120" />
+                                    </Grid>
+                            </Expander>
+                    </Grid>
+                </Expander>
+                <Expander Margin="0,10,0,0" Header="Client Auto Information" DockPanel.Dock="Top"  Name="exdClientAutoInformation" FontWeight="Bold" FontSize="13">
+                    <Grid >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="167" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="143" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.ColumnSpan="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Row="0" Grid.Column="0" Content="Edit Section" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnEditClientAutoInfo" Click="btnEditClientAutoInfo_Click" />
+                                <Button Grid.Row="0" Grid.Column="1" Content="Cancel" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnCancelClientAutoInfo" Click="btnCancelClientAutoInfo_Click" />
+                                <Button Grid.Row="0" Grid.Column="2" Content="Save" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnSaveClientAutoInfo" Click="btnSaveClientAutoInfo_Click" />
+                            </Grid>
+                           
+                            <Label Content="Insurance Company" Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblInsuranceCompany" VerticalAlignment="Top" />
+                            <TextBox Height="23" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientAutoInsuranceCompany" VerticalAlignment="Top" Width="120" />
+                            <Label Content="Address" Grid.Row="2" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblClientAutoAddress" VerticalAlignment="Top" />
+                            <TextBox Height="23" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientAutoAddress" VerticalAlignment="Top" Width="120" />
+                            <Label Content="City" Grid.Row="3" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblClientAutoCity" VerticalAlignment="Top" />
+                            <TextBox Height="23" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientAutoCity" VerticalAlignment="Top" Width="120" />
+                            <Label Content="State" Grid.Row="4" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblClientAutoState" VerticalAlignment="Top" />
+                            <TextBox Height="23" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientAutoState" VerticalAlignment="Top" Width="120" />
+                            <Label Content="Zip" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblClientAutoZip" VerticalAlignment="Top" />
+                            <TextBox Height="23" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientAutoZip" VerticalAlignment="Top" Width="120" />
+                            <Label Content="Phone Number" Grid.Row="6" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblClientAutoPhoneNumber" VerticalAlignment="Top" />
+                            <TextBox Height="23" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientAutoPhoneNumber" VerticalAlignment="Top" Width="120" />
+                            <Label Content="Adjuster" Grid.Row="7" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblClientAutoAdjuster" VerticalAlignment="Top" />
+                            <TextBox Height="23" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientAutoAdjuster" VerticalAlignment="Top" Width="120" />
+                            <Label Content="Policy Number" Grid.Row="1" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblPolicyNumber" VerticalAlignment="Top" />
+                            <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="3" Name="txtPolicyNumber" VerticalAlignment="Top" Width="120" />
+                            <Label Content="Effective Start Date" Grid.Row="2" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblEffectiveStartDate" VerticalAlignment="Top" />
+                            <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="4" Name="dtEffectiveStartDate" VerticalAlignment="Top" Width="120" />
+                            <Label Content="Effective End Date" Grid.Row="3" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblEffectiveEndDate" VerticalAlignment="Top" />
+                            <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="4" Name="dtEffectiveEndtDate" VerticalAlignment="Top" Width="120" />
+                            <Label Content="Med Pay Available" Grid.Row="4" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblMedPayAvailable" VerticalAlignment="Top" />
+                            <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="3" Name="txtMedPayAvailable" Text="N" VerticalAlignment="Top" Width="120" MaxLength="1" />
+                            <Label Content="Amount" Grid.Row="5" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblAmount" VerticalAlignment="Top" />
+                            <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="5" Grid.Column="3" Name="txtAmount" VerticalAlignment="Top" Width="120" PreviewTextInput="txtAmount_PreviewTextInput" />
+                            <Label Content="Liability Minimum Coverage" Grid.Row="6" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblLiabilityMinimumCoverage" VerticalAlignment="Top" />
+                            <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="6" Grid.Column="3" Name="txtLiabilityMinimumCoverage" VerticalAlignment="Top" Width="120" />
+                            <Label Content="Liability Maximum Coverage" Grid.Row="7" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblLiabilityMaximumCoverage" VerticalAlignment="Top" />
+                            <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="3" Name="txtLiabilityMaximumCoverage" VerticalAlignment="Top" Width="120" />
+                            <Label Content="UMI Minimum" Grid.Row="8" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblUMIMinimum" VerticalAlignment="Top" />
+                            <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="8" Grid.Column="3" Name="txtUMIMinimum" VerticalAlignment="Top" Width="120" />
+                            <Label Content="UMI Maximum" Grid.Row="9" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblUMIMaximum" VerticalAlignment="Top" />
+                            <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="9" Grid.Column="3" Name="txtUMIMaximum" VerticalAlignment="Top" Width="120" />
+                            <Label Content="Reimbursable" Grid.Row="10" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblReimbursable" VerticalAlignment="Top" />
+                            <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="10" Grid.Column="3" Name="txtReimbursable" Text="N" VerticalAlignment="Top" Width="120" />
+                            <Label Content="Notes" Grid.Row="11" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblClientAutoInfoNotes" VerticalAlignment="Top" />
+                            <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="11" Grid.Column="3" Name="txtClientAutoInfoNotes" VerticalAlignment="Top" Width="120" />
+                        </Grid>
+                    </Grid>
+                </Expander>
+                <Expander Margin="0,10,0,0" Header="Client Medical Insurance" DockPanel.Dock="Top"  Name="exdClientMedicalInsurance" FontWeight="Bold" FontSize="13">
+                   
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition Width="4*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.ColumnSpan="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Edit Section" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnEditClientMedicalInsurance" Click="btnEditClientMedicalInsurance_Click" />
+                            <Button Grid.Row="0" Grid.Column="1" Content="Cancel" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnCancelClientMedicalInsurance" Click="btnCancelClientMedicalInsurance_Click" />
+                            <Button Grid.Row="0" Grid.Column="2" Content="Save" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnSaveClientMedicalInsurance" Click="btnSaveClientMedicalInsurance_Click" />
+                        </Grid>
+                        <Label Content="Named Insured" Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblNamedInsured" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  Name="txtNamedInsured" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Insurance Company" Grid.Row="2" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblClientMedicalInsuranceCompany" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"  Name="txtInsuranceCompany" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Address" Grid.Row="3" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblClientMedicalAddress" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientMedicalAddress" VerticalAlignment="Top" Width="120" />
+                        <Label Content="City" Grid.Row="4" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblClientMedicalCity" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientMedicalCity" VerticalAlignment="Top" Width="120" />
+                        <Label Content="State" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblClientMedicalState" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientMedicalState" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Zip" Grid.Row="6" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblClientMedicalZip" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientMedicalZip" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Phone Number" Grid.Row="7" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblClientMedicalPhoneNumber" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left"  Name="txtClientMedicalPhoneNumber" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Policy Number" Grid.Row="1" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblClientMedicalPolicyNumber" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left"  Name="txtClientMedicalPolicyNumber" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Medi-Cal Number" Grid.Row="2" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblClientMedicalMedCalNumber" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Left"  Name="txtClientMedicalMedCalNumber" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Medi-Care Number" Grid.Row="3" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblClientMedicalMedCareNumber" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Left"  Name="txtClientMedicalMedCareNumber" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Claim Number" Grid.Row="4" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblClaimNumber" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Left"  Name="txtClaimNumber" VerticalAlignment="Top" Width="120" />
+                        <Expander Header="Client Injuries" Grid.Row="0" Grid.Column="4" Grid.RowSpan="7"  Name="exdClientInjuries" FontWeight="Bold" FontSize="13" Margin="0,0,0,-23">
+                            <Grid >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="23*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <DataGrid AutoGenerateColumns="False" Grid.ColumnSpan="4" Grid.RowSpan="4" HorizontalAlignment="Left" Name="dgClientMedicalInsuranceNotes" VerticalAlignment="Top" SelectionChanged="dgClientMedicalInsuranceNotes_SelectionChanged" FontWeight="Normal" FontSize="11">
+                                    
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Note" Binding="{Binding Note}" Width="Auto"/>
+                                        <DataGridTextColumn Header="Created Date" Binding="{Binding CreatedDate}" Width="Auto"/>
+                                        <DataGridTextColumn Header="Modified Date" Binding="{Binding LastModifiedDate}" Width="Auto" SortDirection="Descending"/>
+                                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+                                        <DataGridTextColumn Header="FileID" Binding="{Binding FileID}" Width="Auto" Visibility="Hidden"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <TextBox Height="23" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left"  Name="txtClientMedicalInsuranceNoteName" IsReadOnly="True" VerticalAlignment="Top" Width="100" Text="Note" />
+                                <DatePicker Height="23" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="1" Name="dtClientMedicalNoteDate"  VerticalAlignment="Top" Width="100" />
+                                <TextBox Height="23" Grid.Row="5" Grid.ColumnSpan="4" TextWrapping="Wrap" AcceptsReturn="True" HorizontalAlignment="Left"  Name="txtClientMedicalInsuranceNoteDescription" IsReadOnly="True" VerticalAlignment="Top" Width="400" Text="Description" />
+                                <Button Content="Add New" Grid.Row="6" Grid.Column="0"  Height="23" HorizontalAlignment="Left" Name="btnAddNewClientMedicalInsuranceNote" VerticalAlignment="Top" Width="75" Click="btnAddNewClientMedicalInsuranceNote_Click" />
+                                <Button Content="Edit" Grid.Row="6" Grid.Column="1"  Height="23" HorizontalAlignment="Left" Name="btnEditClientMedicalInsuranceNote" VerticalAlignment="Top" Width="75" Click="btnEditClientMedicalInsuranceNote_Click" />
+                                <Button Content="Save" Grid.Row="6" Grid.Column="2"  Height="23" HorizontalAlignment="Left" Name="btnSaveClientMedicalInsuranceNote" IsEnabled="False" VerticalAlignment="Top" Width="75" Click="btnSaveClientMedicalInsuranceNote_Click" />
+                                <Button Content="Delete" Grid.Row="6" Grid.Column="3"  Height="23" HorizontalAlignment="Left" Name="btnDeleteClientMedicalInsuranceNote" VerticalAlignment="Top" Width="75" Click="btnDeleteClientMedicalInsuranceNote_Click" />
+                            </Grid>
+                        </Expander>
+                    </Grid>
+                </Expander>
+                <Expander Margin="0,10,0,0" Header="Defendant Information" DockPanel.Dock="Top"  Name="exdDefendantInformation" FontWeight="Bold" FontSize="13">
+                    <Grid VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="95" />
+                            <ColumnDefinition Width="129" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.ColumnSpan="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Edit Section" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnEditDefendantInfo" Click="btnEditDefendantInfo_Click" />
+                            <Button Grid.Row="0" Grid.Column="1" Content="Cancel" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnCancelDefendantInfo" Click="btnCancelDefendantInfo_Click" />
+                            <Button Grid.Row="0" Grid.Column="2" Content="Save" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnSaveDefendantInfo" Click="btnSaveDefendantInfo_Click" />
+                        </Grid>
+                        <Label Content="Last Name" Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantLastName" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantLastName" VerticalAlignment="Top" Width="120" />
+                        <Label Content="First Name" Grid.Row="2" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantFirstName" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantFirstName" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Address" Grid.Row="3" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantAddress" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantAddress" VerticalAlignment="Top" Width="120" />
+                        <Label Content="City" Grid.Row="4" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantCity" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantCity" VerticalAlignment="Top" Width="120" />
+                        <Label Content="State" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantState" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantState" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Zip" Grid.Row="6" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantZip" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantZip" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Home Phone" Grid.Row="7" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantHomePhone" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantHomePhone" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Business Phone" Grid.Row="8" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantBusinessPhone" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantBusinessPhone" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Date Of Birth" Grid.Row="9" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantDateOfBirth" VerticalAlignment="Top" />
+                        <DatePicker Height="23" HorizontalAlignment="Left" Grid.Row="9" Grid.Column="1" Name="dtDefendantDateOfBirth" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Driving License" Grid.Row="10" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantDrivingLicense" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="10" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantDrivingLicense" VerticalAlignment="Top" Width="120" />
+                        <Expander Header="Defendant Attorney Information" Grid.Row="1" Grid.Column="2" Name="exdDefendantAttorneyInformation"  Grid.RowSpan="8" FontWeight="Bold" FontSize="13" >
+                            <Expander.Resources>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Setter Property="FontWeight" Value="Normal"></Setter>
+                                    <Setter Property="FontSize" Value="11"></Setter>
+                                </Style>
+                                <Style TargetType="{x:Type Label}">
+                                    <Setter Property="FontWeight" Value="Normal"></Setter>
+                                    <Setter Property="FontSize" Value="11"></Setter>
+                                </Style>
+                                <Style TargetType="{x:Type DatePicker}">
+                                    <Setter Property="FontWeight" Value="Normal"></Setter>
+                                    <Setter Property="FontSize" Value="11"></Setter>
+                                </Style>
+                            </Expander.Resources>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="95" />
+                                    <ColumnDefinition Width="129" />
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Firm" Grid.Row="0" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantAttorneyFirm" VerticalAlignment="Top" />
+                                <TextBox Height="23" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantAttorneyFirm" VerticalAlignment="Top" Width="120" />
+                                <Label Content="Attorney" Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantAttorneyName" VerticalAlignment="Top" />
+                                <TextBox Height="23" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantAttorneyName" VerticalAlignment="Top" Width="120" />
+                                <Label Content="Address" Grid.Row="2" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantAttorneyAddress" VerticalAlignment="Top" />
+                                <TextBox Height="23" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantAttorneyAddress" VerticalAlignment="Top" Width="120" />
+                                <Label Content="City" Grid.Row="3" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantAttorneyCity" VerticalAlignment="Top" />
+                                <TextBox Height="23" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantAttorneyCity" VerticalAlignment="Top" Width="120" />
+                                <Label Content="State" Grid.Row="4" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantAttorneyState" VerticalAlignment="Top" />
+                                <TextBox Height="23" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantAttorneyState" VerticalAlignment="Top" Width="120" />
+                                <Label Content="Zip" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantAttorneyZip" VerticalAlignment="Top" />
+                                <TextBox Height="23" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantAttorneyZip" VerticalAlignment="Top" Width="120" />
+                                <Label Content="Phone" Grid.Row="6" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantAttorneyPhone" VerticalAlignment="Top" />
+                                <TextBox Height="23" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantAttorneyPhone" VerticalAlignment="Top" Width="120" />
+                            </Grid>
+                        </Expander>
+                    </Grid>
+                </Expander>
+                <Expander Margin="0,10,0,0" Header="Defendant Insurance Information" DockPanel.Dock="Top"  Name="exdDefendantInsuranceInformation" FontWeight="Bold" FontSize="13">
+                    <Grid VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition Width="130" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.ColumnSpan="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Edit Section" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnEditDefendantInsuranceInfo" Click="btnEditDefendantInsuranceInfo_Click" />
+                            <Button Grid.Row="0" Grid.Column="1" Content="Cancel" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnCancelDefendantInsuranceInfo" Click="btnCancelDefendantInsuranceInfo_Click" />
+                            <Button Grid.Row="0" Grid.Column="2" Content="Save" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnSaveDefendantInsuranceInfo" Click="btnSaveDefendantInsuranceInfo_Click" />
+                        </Grid>
+                        <Label Content="Name of Insured" Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantInsuranceNameOfInsured" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantInsuranceNameOfInsured" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Insurance Company" Grid.Row="2" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantInsuranceCompany" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantInsuranceCompany" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Address" Grid.Row="3" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantInsuranceAddress" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantInsuranceAddress" VerticalAlignment="Top" Width="120" />
+                        <Label Content="City" Grid.Row="4" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantInsuranceCity" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantInsuranceCity" VerticalAlignment="Top" Width="120" />
+                        <Label Content="State" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantInsuranceState" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantInsuranceState" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Zip" Grid.Row="6" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantInsuranceZip" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantInsuranceZip" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Phone" Grid.Row="7" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantInsurancePhone" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantInsurancePhone" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Adjuster" Grid.Row="8" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantInsuranceAdjuster" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantInsuranceAdjuster" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Claim Number" Grid.Row="9" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantInsuranceClaimNumber" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="9" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantInsuranceClaimNumber" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Policy Limits" Grid.Row="10" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblDefendantInsurancePolicyLimits" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="10" Grid.Column="1" HorizontalAlignment="Left"  Name="txtDefendantInsurancePolicyLimits" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </Expander>
+                <Expander Margin="0,10,0,0" Header="Statute Information" DockPanel.Dock="Top"  Name="exdStatuteInformation" FontWeight="Bold" FontSize="13" >
+                    <Grid  VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140" />
+                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.ColumnSpan="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Edit Section" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnEditStatuteInfo" Click="btnEditStatuteInfo_Click" />
+                            <Button Grid.Row="0" Grid.Column="1" Content="Cancel" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnCancelStatuteInfo" Click="btnCancelStatuteInfo_Click" />
+                            <Button Grid.Row="0" Grid.Column="2" Content="Save" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnSaveStatuteInfo" Click="btnSaveStatuteInfo_Click" />
+                        </Grid>
+                        <Label Content="1 yr from date of Accident" Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lbl1yrAccStatue" VerticalAlignment="Top" />
+                        <Label Content="[ 1Yr +Accident ]" Grid.Row="1" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lbl1YrFromDateOfAccident" VerticalAlignment="Top" />
+                        <Label Content="2 yr from date of Accident" Grid.Row="2" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lbl2yrAccStatue" VerticalAlignment="Top" />
+                        <Label Content="[ 2Yr +Accident ]" Grid.Row="2" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lbl2YrFromDateOfAccident" VerticalAlignment="Top" />
+                        <Label Content="Complaint Filed Date" Height="28" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="0" Name="lblStatuteComplaintFiledDate" VerticalAlignment="Top" />
+                        <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1" Name="dtStatuteComplaintFiledDate" VerticalAlignment="Top" Width="120" SelectedDateChanged="dtStatuteComplaintFiledDate_SelectedDateChanged" />
+                        <Label Content="+60 days from Filed Date" Grid.Row="4" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lbl60DaysFromFiledDate" VerticalAlignment="Top" />
+                        <Label Content="[+60 days Filed Date]" Grid.Row="4" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblStatuteComplaint60DaysFromFiledDate" VerticalAlignment="Top" />
+                        <Label Content="2 years Date" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lbl2yearsDate" VerticalAlignment="Top" />
+                        <Label Content="[2 years Date]" Grid.Row="5" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblStatuteComplaint2yearsDate" VerticalAlignment="Top" />
+                        <Label Content="3 years Date" Grid.Row="6" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lbl3yearsDate" VerticalAlignment="Top" />
+                        <Label Content="[3 years Date]" Grid.Row="6" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblStatuteComplaint3yearsDate" VerticalAlignment="Top" />
+                        <Label Content="5 years Date" Grid.Row="7" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lbl5yearsDate" VerticalAlignment="Top" />
+                        <Label Content="[5 years Date]" Grid.Row="7" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblStatuteComplaint5yearsDate" VerticalAlignment="Top" />
+                        <CheckBox Content="Is it a Government Claim?" Grid.Row="1" Grid.Column="2" Height="16" HorizontalAlignment="Center" Name="cbIsItAGovernmentClaim" VerticalAlignment="Center" Checked="cbIsItAGovernmentClaim_Checked" Unchecked="cbIsItAGovernmentClaim_Unchecked" />
+
+                        <Expander Header="Govertment Claims" Grid.Row="1" Grid.Column="3" Name="exdGovertmentClaims"  Grid.RowSpan="9" FontWeight="Bold" FontSize="13">
+                            <Expander.Resources>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Setter Property="FontWeight" Value="Normal"></Setter>
+                                    <Setter Property="FontSize" Value="11"></Setter>
+                                </Style>
+                                <Style TargetType="{x:Type Label}">
+                                    <Setter Property="FontWeight" Value="Normal"></Setter>
+                                    <Setter Property="FontSize" Value="11"></Setter>
+                                </Style>
+                                <Style TargetType="{x:Type DatePicker}">
+                                    <Setter Property="FontWeight" Value="Normal"></Setter>
+                                    <Setter Property="FontSize" Value="11"></Setter>
+                                </Style>
+                            </Expander.Resources>
+                            <TabControl Height="240" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0" Name="tbGovernmentClaims" VerticalAlignment="Top" Width="354">
+                                <TabItem Header="City" Name="tbCity" >
+                                    <Grid >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="170" />
+                                            <ColumnDefinition Width="170" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Denied Date" Grid.Row="0" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="tbCityDeniedDate" VerticalAlignment="Top"  />
+                                        <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" Name="dtCityDeniedDate" VerticalAlignment="Top" Width="120" SelectedDateChanged="dtCityDeniedDate_SelectedDateChanged" />
+                                        <Label Content="Claim Due Date (+180 )" Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lbltbCityClaimDueDate" VerticalAlignment="Top" />
+                                        <Label Content="[ +180 Denied date ]" Grid.Row="1" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="tbCityClaimDueDate" VerticalAlignment="Top" />
+                                        <Label Content="Filed Date" Height="28" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="0" Name="tbCityFiledDate" VerticalAlignment="Top" />
+                                        <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" Name="dtCityFileDate" VerticalAlignment="Top" Width="120" SelectedDateChanged="dtCityFileDate_SelectedDateChanged" />
+                                        <Label Content="+60 days from Filed Date" Grid.Row="3" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lbl60DaysFromCityFiledDate" VerticalAlignment="Top" />
+                                        <Label Content="[+60 days Filed Date]" Grid.Row="3" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblCity60DaysFromFiledDate" VerticalAlignment="Top" />
+                                        <Label Content="2 years Date" Grid.Row="4" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblGCity2yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="[2 years Date]" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"  Name="lblCity2yearsDate" Margin="0,0,0,22" Grid.RowSpan="2" />
+                                        <Label Content="3 years Date" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblGCity3yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="[3 years Date]" Grid.Row="5" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblCity3yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="5 years Date" Grid.Row="6" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblGCity5yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="[5 years Date]" Grid.Row="6" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblCity5yearsDate" VerticalAlignment="Top" />
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="County" Name="tbCounty">
+                                    <Grid >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="170" />
+                                            <ColumnDefinition Width="170" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Denied Date" Grid.Row="0" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="tbCountyDeniedDate" VerticalAlignment="Top"  />
+                                        <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" Name="dtCountyDeniedDate" VerticalAlignment="Top" Width="120" SelectedDateChanged="dtCountyDeniedDate_SelectedDateChanged" />
+                                        <Label Content="Claim Due Date (+180 )" Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lbltbCountyClaimDueDate" VerticalAlignment="Top" />
+                                        <Label Content="[ +180 Denied date ]" Grid.Row="1" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="tbCountyClaimDueDate" VerticalAlignment="Top" />
+                                        <Label Content="Filed Date" Height="28" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="0" Name="tbCountyFiledDate" VerticalAlignment="Top" />
+                                        <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" Name="dtCountyFileDate" VerticalAlignment="Top" Width="120" SelectedDateChanged="dtCountyFileDate_SelectedDateChanged" />
+                                        <Label Content="+60 days from Filed Date" Grid.Row="3" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lbl60DaysFromCountyFiledDate" VerticalAlignment="Top" />
+                                        <Label Content="[+60 days Filed Date]" Grid.Row="3" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblCounty60DaysFromFiledDate" VerticalAlignment="Top" />
+                                        <Label Content="2 years Date" Grid.Row="4" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblGCounty2yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="[2 years Date]" Grid.Row="4" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblCounty2yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="3 years Date" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblGCounty3yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="[3 years Date]" Grid.Row="5" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblCounty3yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="5 years Date" Grid.Row="6" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblGCounty5yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="[5 years Date]" Grid.Row="6" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblCounty5yearsDate" VerticalAlignment="Top" />
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="State" Name="tbState">
+                                    <Grid >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="170" />
+                                            <ColumnDefinition Width="170" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Denied Date" Grid.Row="0" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="tbStateDeniedDate" VerticalAlignment="Top"  />
+                                        <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" Name="dtStateDeniedDate" VerticalAlignment="Top" Width="120" SelectedDateChanged="dtStateDeniedDate_SelectedDateChanged" />
+                                        <Label Content="Claim Due Date (+180 )" Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lbltbStateClaimDueDate" VerticalAlignment="Top" />
+                                        <Label Content="[ +180 Denied date ]" Grid.Row="1" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="tbStateClaimDueDate" VerticalAlignment="Top" />
+                                        <Label Content="Filed Date" Height="28" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="0" Name="tbStateFiledDate" VerticalAlignment="Top" />
+                                        <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" Name="dtStateFileDate" VerticalAlignment="Top" Width="120" SelectedDateChanged="dtStateFileDate_SelectedDateChanged" />
+                                        <Label Content="+60 days from Filed Date" Grid.Row="3" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lbl60DaysFromStateFiledDate" VerticalAlignment="Top" />
+                                        <Label Content="[+60 days Filed Date]" Grid.Row="3" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblState60DaysFromFiledDate" VerticalAlignment="Top" />
+                                        <Label Content="2 years Date" Grid.Row="4" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblGState2yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="[2 years Date]" Grid.Row="4" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblState2yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="3 years Date" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblGState3yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="[3 years Date]" Grid.Row="5" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblState3yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="5 years Date" Grid.Row="6" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblGState5yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="[5 years Date]" Grid.Row="6" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblState5yearsDate" VerticalAlignment="Top" />
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Other" Name="tbOther">
+                                    <Grid >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="170" />
+                                            <ColumnDefinition Width="170" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Denied Date" Grid.Row="0" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="tbOtherDeniedDate" VerticalAlignment="Top"  />
+                                        <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" Name="dtOtherDeniedDate" VerticalAlignment="Top" Width="120" SelectedDateChanged="dtOtherDeniedDate_SelectedDateChanged" />
+                                        <Label Content="Claim Due Date (+180 )" Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lbltbOtherClaimDueDate" VerticalAlignment="Top" />
+                                        <Label Content="[ +180 Denied date ]" Grid.Row="1" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="tbOtherClaimDueDate" VerticalAlignment="Top" />
+                                        <Label Content="Filed Date" Height="28" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="0" Name="tbOtherFiledDate" VerticalAlignment="Top" />
+                                        <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" Name="dtOtherFileDate" VerticalAlignment="Top" Width="120" SelectedDateChanged="dtOtherFileDate_SelectedDateChanged" />
+                                        <Label Content="+60 days from Filed Date" Grid.Row="3" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lbl60DaysFromOtherFiledDate" VerticalAlignment="Top" />
+                                        <Label Content="[+60 days Filed Date]" Grid.Row="3" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblOther60DaysFromFiledDate" VerticalAlignment="Top" />
+                                        <Label Content="2 years Date" Grid.Row="4" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblGOther2yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="[2 years Date]" Grid.Row="4" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblOther2yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="3 years Date" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblGOther3yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="[3 years Date]" Grid.Row="5" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblOther3yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="5 years Date" Grid.Row="6" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblGOther5yearsDate" VerticalAlignment="Top" />
+                                        <Label Content="[5 years Date]" Grid.Row="6" Grid.Column="1" Height="28" HorizontalAlignment="Left"  Name="lblOther5yearsDate" VerticalAlignment="Top" />
+                                    </Grid>
+                                </TabItem>
+                            </TabControl>
+                        </Expander>
+
+                    </Grid>
+                </Expander>
+                <Expander Margin="0,10,0,0" Header="Court Information" DockPanel.Dock="Top"  Name="exdCourtInformation" FontWeight="Bold" FontSize="13">
+                    <Grid VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="130" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.ColumnSpan="2" Margin="0,0,-70,0" Width="300">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Edit Section" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnEditCourtInfo" Click="btnEditCourtInfo_Click" />
+                            <Button Grid.Row="0" Grid.Column="1" Content="Cancel" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnCancelCourtInfo" Click="btnCancelCourtInfo_Click" />
+                            <Button Grid.Row="0" Grid.Column="2" Content="Save" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnSaveCourtInfo" Click="btnSaveCourtInfo_Click" />
+                        </Grid>
+                        <Label Content="Case Number" Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblCourtInfoCaseNumber" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  Name="txtCourtInfoCaseNumber" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Court" Grid.Row="2" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblCourtInfoCourt" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"  Name="txtCourtInfoCourt" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Address" Grid.Row="3" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblCourtInfoAddress" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"  Name="txtCourtInfoAddress" VerticalAlignment="Top" Width="120" />
+                        <Label Content="City" Grid.Row="4" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblCourtInfoCity" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"  Name="txtCourtInfoCity" VerticalAlignment="Top" Width="120" />
+                        <Label Content="State" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblCourtInfoState" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"  Name="txtCourtInfoState" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Zip" Grid.Row="6" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblCourtInfoZip" VerticalAlignment="Top" />
+                        <TextBox Height="23" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left"  Name="txtCourtInfoZip" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </Expander>
+                <Expander Margin="0,10,0,0"  Header="Misc Notes" DockPanel.Dock="Top"  Name="exdMiscNotes" FontWeight="Bold" FontSize="13">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid AutoGenerateColumns="False" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="4" HorizontalAlignment="Left" Name="dgMiscNotes" VerticalAlignment="Top" SelectionChanged="dgMiscNotes_SelectionChanged" FontSize="11" FontWeight="Normal" Height="109" Margin="5,5,0,0">
+                        
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Note" Binding="{Binding NoteNumber}" Width="Auto"/>
+                                <DataGridTextColumn Header="Created Date" Binding="{Binding CreatedDate}" Width="Auto"/>
+                                <DataGridTextColumn Header="Modified Date" Binding="{Binding ModifiedDate}" Width="Auto"/>
+                                <!--<DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" />-->
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="TextWrapping" Value="Wrap" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.EditingElementStyle>
+                                        <Style TargetType="TextBox">
+                                            <Setter Property="TextWrapping" Value="Wrap" />
+                                            <Setter Property="AcceptsReturn" Value="true" />
+                                        </Style>
+                                    </DataGridTextColumn.EditingElementStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Grid Grid.ColumnSpan="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Edit Section" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnEditMiscNoteInfoSection" Click="btnEditMiscNoteInfoSection_Click" />
+                            <Button Grid.Row="0" Grid.Column="1" Content="Cancel" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnCancelMiscNoteInfoSection" Click="btnCancelMiscNoteInfoSection_Click" />
+                            
+                        </Grid>
+                        <TextBox Height="23" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left"  Name="txtMiscNoteName" IsReadOnly="True" VerticalAlignment="Top" Width="100" Text="Note" />
+                        <DatePicker Height="23" HorizontalAlignment="Left" Grid.Row="5" Grid.Column="1" Name="dtMiscNoteDate" IsEnabled="False" VerticalAlignment="Top" Width="100" />
+                        <TextBox Grid.Row="6" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="5" Width="400" Height="50" AcceptsReturn="True" HorizontalAlignment="Left"  Name="txtMiscNoteDescription" IsReadOnly="True"  VerticalAlignment="Top" Text="Description" TextWrapping="Wrap" />
+                        <Button Content="Add New" Grid.Row="8" Grid.Column="0"  Height="23" HorizontalAlignment="Left" Name="btnAddNewMiscNote" VerticalAlignment="Top" Width="75" Click="btnAddNewMiscNote_Click" />
+                        <Button Content="Edit" Grid.Row="8" Grid.Column="1"  Height="23" HorizontalAlignment="Left" Name="btnEditMiscNote" VerticalAlignment="Top" Width="75" Click="btnEditMiscNote_Click" />
+                        <Button Content="Save" Grid.Row="8" Grid.Column="2"  Height="23" HorizontalAlignment="Left" Name="btnSaveMiscNote" IsEnabled="False" VerticalAlignment="Top" Width="75" Click="btnSaveMiscNote_Click" />
+                        <Button Content="Delete" Grid.Row="8" Grid.Column="3"  Height="23" HorizontalAlignment="Left" Name="btnDeleteMiscNote" VerticalAlignment="Top" Width="75" Click="btnDeleteMiscNote_Click" />
+                    </Grid>
+                </Expander>
+            </DockPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

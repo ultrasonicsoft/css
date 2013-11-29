@@ -1,0 +1,226 @@
+﻿<Window x:Class="CaseControl.ClientBilling"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ClientBilling"  Height="850" Width="1170" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+            <GradientStop Color="#FFD3D3F4" Offset="0" />
+            <GradientStop Color="White" Offset="1" />
+        </LinearGradientBrush>
+    </Window.Background>
+    <DockPanel>
+        <Grid DockPanel.Dock="Left" Width="300" HorizontalAlignment="Left" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="1" Text="Search" Margin="0,30,0,0" Name="txtSearch" TextChanged="txtSearch_TextChanged" GotFocus="txtSearch_GotFocus" LostFocus="txtSearch_LostFocus"></TextBox>
+            <DataGrid AutoGenerateColumns="False" Grid.Row="2" Height="430" HorizontalAlignment="Left" Margin="0,5,0,0" Name="dgClientFileList" VerticalAlignment="Top" Width="300" SelectionChanged="dgClientFileList_SelectionChanged" ItemsSource="{Binding}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" ></DataGridTextColumn>
+                    <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" SortDirection="Descending"></DataGridTextColumn>
+                    <DataGridTextColumn Header="File No." Binding="{Binding FileID}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <ComboBox Grid.Row="3" Height="23" HorizontalAlignment="Left" Margin="129,9,0,0" Name="cmbActivityFilter" VerticalAlignment="Top" Width="120" SelectionChanged="cmbActivityFilter_SelectionChanged" SelectedIndex="0">
+                <ComboBoxItem Content="Active" IsSelected="True" />
+                <ComboBoxItem Content="All" />
+                <ComboBoxItem Content="Inactive" />
+            </ComboBox>
+            <Label Content="Filter clients by Status:" Grid.Row="3" Height="28" HorizontalAlignment="Left" Margin="6,10,0,0" Name="label2" VerticalAlignment="Top" />
+        </Grid>
+        <Grid DockPanel.Dock="Top" Height="30" VerticalAlignment="Top" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="1" Grid.Column="0" Content="Home" Margin="10,0,0,0" Width="75" Name="btnHome" Click="btnHome_Click" />
+            <Button Grid.Row="1" Grid.Column="1" Content="Print Page" Margin="10,0,0,0" Width="75" Name="btnPrintPage" Click="btnPrintPage_Click" />
+            <Button Grid.Row="1" Grid.Column="2" Content="Client Information" Margin="10,0,0,0" Width="105" Name="btnClientInformation" Click="btnClientInformation_Click" />
+            <Button Grid.Row="1" Grid.Column="3" Content="Reports" Margin="10,0,0,0" Width="75" Name="btnClientReports" Click="btnClientReports_Click" />
+            <Button Grid.Row="1" Grid.Column="4" Content="Close" Margin="10,0,0,0" Width="75" Name="btnClose" Click="btnClose_Click" />
+            <!--<Button Grid.Row="1" Grid.Column="2" Content="Edit Client" Width="75" Margin="10,0,0,0" Name="btnEditClient" Click="btnEditClient_Click" />-->
+        </Grid>
+        <ScrollViewer Margin="0,20,0,0">
+            <DockPanel>
+                <Grid DockPanel.Dock="Top" Height="300">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="86" />
+                        <ColumnDefinition Width="167" />
+                        <ColumnDefinition Width="83" />
+                        <ColumnDefinition Width="143" />
+                        <ColumnDefinition Width="129" />
+                        <ColumnDefinition Width="176" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="General Section" FontWeight="Bold" FontSize="13" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" Height="28" HorizontalAlignment="Left"  Name="label1" VerticalAlignment="Top" />
+                    <Label Content="File No." Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="label10" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" Name="txtFileNo" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Last Name" Height="28" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="0" Name="label11" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" Name="txtLastName" VerticalAlignment="Top" Width="120" />
+                    <Label Content="First Name" Height="28" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="0" Name="label12" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1" Name="txtFirstName" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Case Type" Height="28" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="0" Name="label13" VerticalAlignment="Top" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="1" Name="cmbCaseType" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Other Type" Height="28" HorizontalAlignment="Left" Grid.Row="5" Grid.Column="0" Name="label14" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="5" Grid.Column="1" Name="txtOtherCaseType" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Case Status" Height="28" HorizontalAlignment="Left" Grid.Row="6" Grid.Column="0" Name="label15" VerticalAlignment="Top" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Grid.Row="6" Grid.Column="1" Name="cmbCaseStatus" VerticalAlignment="Top" Width="120" >
+                    </ComboBox>
+                    <Label Content="Accident Date" Height="28" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0" Name="label16" VerticalAlignment="Top" />
+                    <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="1" Name="dtAccidentDate" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Address" Grid.Row="1" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="label17" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="3" Name="txtAddress" VerticalAlignment="Top" Width="120" />
+                    <Label Content="City" Grid.Row="2" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="label18" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="3" Name="txtCity" VerticalAlignment="Top" Width="120" />
+                    <Label Content="State" Grid.Row="3" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="label19" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="3" Name="txtState" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Home Phone" Grid.Row="4" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="label20" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="3" Name="txtHomePhone" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Cell Phone" Grid.Row="5" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="label21" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="5" Grid.Column="3" Name="txtCellPhone" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Driving License" Grid.Row="6" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="label22" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="6" Grid.Column="3" Name="txtDrivingLicense" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Date Of Birth" Grid.Row="7" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="label23" VerticalAlignment="Top" />
+                    <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="3" Name="dtDateOfBirth" VerticalAlignment="Top" Width="120" />
+                    <Label Content="SSN" Grid.Row="8" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="label24" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="8" Grid.Column="3" Name="txtSSN" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Intial Case Information" Grid.Row="1" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="label25" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="5" Name="txtInitialCaseInformation" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Defendant Name" Grid.Row="2" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="label26" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="5" Name="txtDefendantName" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Evidence 1" Grid.Row="3" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="label27" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="5" Name="txtEvidence1" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Evidence 2" Grid.Row="4" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="label28" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="5" Name="txtEvidence2" VerticalAlignment="Top" Width="120" />
+                    <Button Content="View All Evidence" Grid.Row="5" Grid.Column="5" Height="23" HorizontalAlignment="Left" Name="btnViewAllEvidence" VerticalAlignment="Top" Width="122" Click="btnViewAllEvidence_Click" />
+                    <Label Content="Originating Attorney" Grid.Row="6" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="label29" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="6" Grid.Column="5" Name="txtOriginatingAttorney" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Assigned Attorney" Grid.Row="7" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="label30" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="5" Name="txtAssignedAttorney" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Refferal" Grid.Row="8" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="label31" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="8" Grid.Column="5" Name="txtRefferal" VerticalAlignment="Top" Width="120" />
+                </Grid>
+                <Grid   DockPanel.Dock="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="130" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Margin="0,0,0,0" Grid.Row="0" VerticalAlignment="Top" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="75"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Item No." Grid.Row="0" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblItemNo" VerticalAlignment="Top" />
+                        <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" Name="txtItemNo" VerticalAlignment="Top" Width="100" IsReadOnly="True" />
+                        <Label Content="Date" Grid.Row="0" Grid.Column="2" Height="28" HorizontalAlignment="Center"  Name="lblDate" VerticalAlignment="Top" />
+                        <DatePicker Height="25" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="3" Name="dtTransactionDate" VerticalAlignment="Top" Width="120"  />
+                        <Label Content="Description" Grid.Row="0" Grid.Column="4" Height="28" HorizontalAlignment="Center"  Name="lblDesc" VerticalAlignment="Top" />
+                        <TextBox Grid.Row="0" Grid.Column="5"  Grid.ColumnSpan="3" Width="300" Height="50" AcceptsReturn="True" HorizontalAlignment="Left"  Name="txtDescription" IsReadOnly="True"  VerticalAlignment="Top"  TextWrapping="Wrap" />
+                        <Label Content="Billing Type" Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Left"  Name="lblBillingType" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" Name="cmbBillingType" VerticalAlignment="Top" Width="140" SelectionChanged="cmbBillingType_SelectionChanged" />
+                        <Label Content="General A/c Funds" Grid.Row="1" Grid.Column="2" Height="28" HorizontalAlignment="Left"  Name="lblIGenFund" VerticalAlignment="Top" />
+                        <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="3" Name="txtGeneralFund" VerticalAlignment="Top" Width="100" PreviewTextInput="txtGeneralFund_PreviewTextInput" DataObject.Pasting="TextBoxPasting"/>
+                        <Label Content="Trust A/c Funds" Grid.Row="1" Grid.Column="4" Height="28" HorizontalAlignment="Left"  Name="lblTrustFund" VerticalAlignment="Top" />
+                        <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="5" Name="txtTrustFund" VerticalAlignment="Top" Width="100" PreviewTextInput="txtTrustFund_PreviewTextInput" DataObject.Pasting="TextBoxPasting"/>
+<Label Content="Check No." Grid.Row="1" Grid.Column="6" Height="28" HorizontalAlignment="Left"  Name="lblCheckNo" VerticalAlignment="Top" />
+                        <TextBox Height="23" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="7" Name="txtCheckNo" VerticalAlignment="Top" Width="100" />
+                        <Grid Grid.ColumnSpan="8" Grid.Row="2" Margin="0,5,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Add New" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnAddNewTransaction" Click="btnAddNewTransaction_Click" />
+                            <Button Grid.Row="0" Grid.Column="1" Content="Edit" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnEditTransaction" Click="btnEditTransaction_Click" />
+                            <Button Grid.Row="0" Grid.Column="2" Content="Cancel" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnCancelTransaction" Click="btnCancelTransaction_Click" />
+                            <Button Grid.Row="0" Grid.Column="3" Content="Save" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnSaveTransaction" Click="btnSaveTransaction_Click" />
+                            <Button Grid.Row="0" Grid.Column="4" Content="Delete" Height="25" Width="75" Margin="0,0,0,0" HorizontalAlignment="Center" Name="btnDeleteTransaction" Click="btnDeleteTransaction_Click" />
+                            <Label Content="Search:" Grid.Row="0" Grid.Column="5" Height="28" HorizontalAlignment="Right"  Name="lblSearch" VerticalAlignment="Center" />
+                            <TextBox Grid.Row="0" Grid.Column="6" Text="Search Transaction" Margin="0,0,0,0" Height="23" Name="txtSearchTransaction" TextChanged="txtSearchTransaction_TextChanged" GotFocus="txtSearchTransaction_GotFocus" LostFocus="txtSearchTransaction_LostFocus"></TextBox>
+
+                        </Grid>
+                    </Grid>
+                    <DataGrid AutoGenerateColumns="False" Name="dgTransactionDetails" Margin="0,10,0,0" Grid.Row="1" SelectionChanged="dgTransactionDetails_SelectionChanged" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Item No." Binding="{Binding TransactionID}" Width="65" >
+                                <DataGridTextColumn.CellStyle>
+                                    <Style>
+                                        <Setter Property="TextBlock.TextAlignment" Value="Right" />
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate}" Width="65" SortDirection="Descending"></DataGridTextColumn>
+                            <DataGridTextColumn Header="History Description" Binding="{Binding Description}" Width="250"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Billing Type" Binding="{Binding BillingType}" Width="130"></DataGridTextColumn>
+                            <DataGridTextColumn Header="General Account Funds" Binding="{Binding GeneralFund}" Width="150">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style>
+                                        <Setter Property="TextBlock.TextAlignment" Value="Right" />
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Trust Account Funds" Binding="{Binding TrustFund}" Width="150">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style>
+                                        <Setter Property="TextBlock.TextAlignment" Value="Right" />
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Check No." Binding="{Binding CheckNo}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+                </Grid>
+                <Grid DockPanel.Dock="Bottom" Margin="0,5,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="661"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="[Total:]" Grid.Row="0" FontWeight="DemiBold" Grid.Column="0" Height="28" HorizontalAlignment="Right"  Name="lblGenTotal" VerticalAlignment="Center" />
+                    <Label Content="[Total:]" Grid.Row="0" FontWeight="DemiBold" Grid.Column="1" Height="28" HorizontalAlignment="Right"  Name="lblTrustTotal" VerticalAlignment="Center" />
+                </Grid>
+            </DockPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

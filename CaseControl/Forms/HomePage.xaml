@@ -1,0 +1,25 @@
+﻿<Window x:Class="CaseControl.HomePage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Case Control - Home Page" Height="350" Width="525" WindowStartupLocation="CenterScreen" WindowState="Normal" WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize" Loaded="Window_Loaded">
+<Window.Background>
+        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+            <GradientStop Color="#FFD3D3F4" Offset="0" />
+            <GradientStop Color="White" Offset="1" />
+        </LinearGradientBrush>
+    </Window.Background>    
+    <Grid VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Button Content="Client Information" Height="28" HorizontalAlignment="Center"  Grid.Row="0" VerticalAlignment="Center" Name="btnClientInformation" Width="106" Click="btnClientInformation_Click" />
+        <Button Content="Reports" Height="28" HorizontalAlignment="Center"  Grid.Row="1" Name="btnReports" VerticalAlignment="Center" Width="106" Click="btnReports_Click" />
+        <Button Content="Billing" Height="28" HorizontalAlignment="Center"  Grid.Row="2" Name="btnBilling" VerticalAlignment="Center" Width="106" Click="btnBilling_Click" />
+        <Button Content="Delete Clients" Height="28" HorizontalAlignment="Center" Grid.Row="3" Name="btnDeleteClients" VerticalAlignment="Center" Width="106" Click="btnDeleteClients_Click" />
+        <Button Content="Configure Database" Height="28" HorizontalAlignment="Center" Grid.Row="4" Name="btnConfigureDatase" VerticalAlignment="Center" Width="106" Click="btnConfigureDatase_Click" />
+    </Grid>
+</Window>

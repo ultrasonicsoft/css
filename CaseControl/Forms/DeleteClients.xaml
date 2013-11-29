@@ -1,0 +1,46 @@
+﻿<Window x:Class="CaseControl.DeleteClients"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Delete Clients" Height="489" Width="340" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+            <GradientStop Color="#FFD3D3F4" Offset="0" />
+            <GradientStop Color="White" Offset="1" />
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid>
+        <Grid DockPanel.Dock="Left" Width="320" HorizontalAlignment="Center" Margin="0,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="16*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Row="1" Text="Search" Grid.ColumnSpan="3" Margin="0,10,0,0" Name="txtSearch" TextChanged="txtSearch_TextChanged" GotFocus="txtSearch_GotFocus" LostFocus="txtSearch_LostFocus"></TextBox>
+            <DataGrid AutoGenerateColumns="False" Grid.ColumnSpan="3" Grid.Row="2" Height="300" HorizontalAlignment="Left" Margin="0,5,0,0" Name="dgClientFileList" VerticalAlignment="Top" Width="320" ItemsSource="{Binding}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" Width="90"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" Width="90" SortDirection="Descending"></DataGridTextColumn>
+                    <DataGridTextColumn Header="File No." Binding="{Binding FileID}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <ComboBox Grid.Row="3" Grid.ColumnSpan="3" Height="23" HorizontalAlignment="Left" Margin="129,9,0,0" Name="cmbActivityFilter" VerticalAlignment="Top" Width="120" SelectionChanged="cmbActivityFilter_SelectionChanged" SelectedIndex="0">
+                <ComboBoxItem Content="Active" IsSelected="True" />
+                <ComboBoxItem Content="All" />
+                <ComboBoxItem Content="Inactive" />
+            </ComboBox>
+            <Label Content="Filter clients by Status:" Grid.ColumnSpan="3" Grid.Row="3" Height="28" HorizontalAlignment="Left" Margin="6,10,0,0" Name="label2" VerticalAlignment="Top" />
+            <Button Content="Delete Client"  Grid.Row="4" Height="23" HorizontalAlignment="Center" Margin="0,0,0,0" Name="btnDeleteClient" VerticalAlignment="Center" Width="75" Click="btnDeleteClient_Click" />
+            <Button Content="Close" Grid.Row="4" Height="23" HorizontalAlignment="Center" Margin="0,0,0,0" Name="btnClose" VerticalAlignment="Center" Width="75" Grid.Column="1" Grid.ColumnSpan="3" IsCancel="True" Click="btnClose_Click" />
+        </Grid>
+    </Grid>
+</Window>

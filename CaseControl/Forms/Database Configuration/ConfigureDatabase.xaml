@@ -1,0 +1,16 @@
+﻿<Window x:Class="CaseControl.ConfigureDatabase"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Configure Database" Height="200" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+            <GradientStop Color="#FFD3D3F4" Offset="0" />
+            <GradientStop Color="White" Offset="1" />
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid>
+        <Button Content="Connect To Database Server" Height="28" HorizontalAlignment="Left"   Name="btnConnectToDatabaseServer" VerticalAlignment="Top" Width="158" Margin="155,12,0,0" Click="btnConnectToDatabaseServer_Click" />
+        <Button Content="Configure Database Server" Height="28" HorizontalAlignment="Left" Name="btnConfigureDatabaseServer" VerticalAlignment="Top" Width="158" Margin="155,65,0,0" Click="btnConfigureDatabaseServer_Click" />
+        <Button Content="Close" Height="28" HorizontalAlignment="Left"  Name="btnClose" VerticalAlignment="Top" Width="158" IsCancel="True" Click="btnClose_Click" Margin="155,121,0,0" />
+    </Grid>
+</Window>

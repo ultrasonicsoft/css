@@ -1,0 +1,74 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using System.IO;
+
+namespace CaseControl
+{
+    /// <summary>
+    /// Interaction logic for SelectDatabaseServer.xaml
+    /// </summary>
+    public partial class SelectDatabaseServer : Window
+    {
+        internal bool IsDatabaseConfigured { get; set; }
+
+        public SelectDatabaseServer()
+        {
+            InitializeComponent();
+        }
+
+        private void btnBrowse_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new System.Windows.Forms.OpenFileDialog();
+            dialog.FileName = Constants.DATABASE_FILE_NAME;
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                txtDatabaseServerPath.Text = dialog.FileName;
+            }
+        }
+
+        private void btnConnectToServer_Click(object sender, RoutedEventArgs e)
+        {
+            if (!File.Exists(txtDatabaseServerPath.Text) || !System.IO.Path.GetFileName(txtDatabaseServerPath.Text).Equals(Constants.DATABASE_FILE_NAME))
+            {
+                Helper.ShowErrorMessageBox("Invalid database selected!", "Connect to Database Server");
+                txtDatabaseServerPath.Focus();
+            }
+
+            string connectionString = string.Format(Constants.CONNECTION_STRING, txtDatabaseServerPath.Text);
+            bool result = DBHelper.TestConnection(connectionString);
+
+            if (result)
+            {
+                string dbsettingFile = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + System.IO.Path.DirectorySeparatorChar.ToString() + Constants.DATABASE_CONFIG;
+                File.WriteAllText(dbsettingFile, connectionString);
+
+                DBHelper.ConfigureConnectionString();
+
+                Helper.ShowInformationMessageBox("Database server configured successfully!", "Connect To Database Server");
+                IsDatabaseConfigured = true;
+                this.Close();
+            }
+            else
+            {
+                Helper.ShowErrorMessageBox("Database server configuration failed! Please contact your vendor.", "Connect To Database Server");
+                Environment.Exit(0);
+            }
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+        
+    }
+}

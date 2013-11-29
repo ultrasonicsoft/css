@@ -1,0 +1,28 @@
+﻿Project Start Date:
+28/07/2013
+
+Project Deadline:
+28/09/2013
+
+delete from caseinformation;
+delete from clientautodetails;
+delete from clientbasicdetails;
+delete from clientcourtdetails;
+delete from clientemployerdetails;
+delete from clientevidences;
+delete from clientfilemaster;
+delete from [clientgovtclaims-city];
+delete from [clientgovtclaims-Country];
+delete from [clientgovtclaims-Other];
+delete from [clientgovtclaims-State];
+delete from clientinjuries;
+delete from clientmaster;
+delete from clientmedicalinsurance;
+delete from clientmiscnotes;
+delete from clientpolicydetails;
+delete from clientspousedetails;
+delete from clienttransactiondetails;
+delete from defendantattorneydetails;
+delete from defendantinformation;
+delete from defendantinsurancedetails;
+delete from statuteinformation;

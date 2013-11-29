@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D63AFDCB-EFF6-4836-B772-656D84D30CB0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CaseControl</RootNamespace>
+    <AssemblyName>CaseControl</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Forms\Database Configuration\ConfigureDatabase.xaml.cs">
+      <DependentUpon>ConfigureDatabase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Database Configuration\DatabaseSettings.xaml.cs">
+      <DependentUpon>DatabaseSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Page1.xaml.cs">
+      <DependentUpon>Page1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Reports\Billing Report\BillingReportPrinter.cs" />
+    <Compile Include="Forms\Reports\Common\BaseViewModel.cs" />
+    <Compile Include="Forms\Reports\Billing Report\BillingReport.xaml.cs">
+      <DependentUpon>BillingReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Reports\Billing Report\BillingReportViewModel.cs" />
+    <Compile Include="Forms\Reports\Common\DelegateCommand.cs" />
+    <Compile Include="Forms\Reports\Billing Report\BillingReportMainViewModel.cs" />
+    <Compile Include="Forms\Reports\AssignedAttorney Report\AssignedAttorney.xaml.cs">
+      <DependentUpon>AssignedAttorney.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Reports\AssignedAttorney Report\AssignedAttorneyMainViewModel.cs" />
+    <Compile Include="Forms\Reports\Common\CommonReportViewModel.cs" />
+    <Compile Include="Forms\Reports\Common\CommonReportPrinter.cs" />
+    <Compile Include="Forms\Reports\All Clients Report\AllClients.xaml.cs">
+      <DependentUpon>AllClients.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Reports\All Clients Report\AllClientsMainViewModel.cs" />
+    <Compile Include="Forms\Reports\All Client Billing Report\AllClientBillingReport.xaml.cs">
+      <DependentUpon>AllClientBillingReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Reports\All Client Billing Report\AllClientBillingReportMainViewModel.cs" />
+    <Compile Include="Forms\Reports\All Client Billing Report\AllClientBillingReportPrinter.cs" />
+    <Compile Include="Forms\Reports\All Client Billing Report\AllClientBillingReportViewModel.cs" />
+    <Compile Include="Forms\Reports\Statute Report\PageElement.cs" />
+    <Compile Include="Forms\Reports\Statute Report\RandomTabularPaginator.cs" />
+    <Compile Include="Forms\Reports\Statute Report\StatuteReport.xaml.cs">
+      <DependentUpon>StatuteReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Reports\Statute Report\StatuteReportMainViewModel.cs" />
+    <Compile Include="Forms\Reports\Statute Report\StatuteReportPrinter.cs" />
+    <Compile Include="Forms\Reports\Statute Report\StatuteReportViewModel.cs" />
+    <Compile Include="Forms\Reports\Referral Attorney Report\Referral.xaml.cs">
+      <DependentUpon>Referral.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Reports\Referral Attorney Report\ReferralMainViewModel.cs" />
+    <Compile Include="Forms\Reports\Originating Attorney Report\OriginatingAttorney.xaml.cs">
+      <DependentUpon>OriginatingAttorney.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Reports\Originating Attorney Report\OriginatingAttorneyMainViewModel.cs" />
+    <Compile Include="Forms\Reports\Reports.xaml.cs">
+      <DependentUpon>Reports.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Forms\ClientBilling.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\ClientInformation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Database Configuration\ConfigureDatabase.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\Database Configuration\DatabaseSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\DeleteClients.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\EvidenceList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\HomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Forms\Database Configuration\SelectDatabaseServer.xaml.cs">
+      <DependentUpon>SelectDatabaseServer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\BusinessLogic.cs" />
+    <Compile Include="Forms\ClientBilling.xaml.cs">
+      <DependentUpon>ClientBilling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ClientInformation.xaml.cs">
+      <DependentUpon>ClientInformation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\Constants.cs" />
+    <Compile Include="Helper\DBHelper.cs" />
+    <Compile Include="Forms\DeleteClients.xaml.cs">
+      <DependentUpon>DeleteClients.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Client Billing\TransactionDetail.cs" />
+    <Compile Include="Entities\General Section\ClientAdditionalInformation.cs" />
+    <Compile Include="Entities\General Section\ClientAutoInformation.cs" />
+    <Compile Include="Entities\General Section\ClientDefendantInformation.cs" />
+    <Compile Include="Entities\General Section\ClientGeneralInformation.cs" />
+    <Compile Include="Entities\General Section\ClientInjury.cs" />
+    <Compile Include="Entities\General Section\ClientMedicalInformation.cs" />
+    <Compile Include="Entities\General Section\CourtInformation.cs" />
+    <Compile Include="Entities\General Section\DefendantInsuranceDetails.cs" />
+    <Compile Include="Entities\General Section\MiscNotes.cs" />
+    <Compile Include="Entities\General Section\StatuteInformation.cs" />
+    <Compile Include="Forms\EvidenceList.xaml.cs">
+      <DependentUpon>EvidenceList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\General Section\FileInformation.cs" />
+    <Compile Include="Helper\Helper.cs" />
+    <Compile Include="Forms\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Forms\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Page1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Reports\Billing Report\BillingReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Reports\AssignedAttorney Report\AssignedAttorney.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\Reports\All Clients Report\AllClients.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\Reports\All Client Billing Report\AllClientBillingReport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\Reports\Statute Report\StatuteReport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\Reports\Referral Attorney Report\Referral.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\Reports\Originating Attorney Report\OriginatingAttorney.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\Reports\Reports.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Database Configuration\SelectDatabaseServer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Forms\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TODO.txt" />
+    <Resource Include="SplashScreen.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CaseControl_database1.sql" />
+    <Content Include="dbsetting.cnf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\validate.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
