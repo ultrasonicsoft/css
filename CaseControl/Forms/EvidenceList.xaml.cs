@@ -35,8 +35,9 @@ namespace CaseControl
         {
             try
             {
-                var result = DBHelper.GetSelectDataSet(string.Format(Constants.CLIENT_BASIC_EVIDENCE_DETAILS_QUERY, FileID));
-                if (result == null || result.Tables[0].Rows.Count == 0)
+                string sqlQuery = string.Format(Constants.CLIENT_BASIC_EVIDENCE_DETAILS_QUERY, string.IsNullOrEmpty(FileID)?"-1":FileID);
+                var result = DBHelper.GetSelectDataSet(sqlQuery);
+                if (result == null || result.Tables.Count ==0 || result.Tables[0].Rows.Count == 0)
                     return;
                 ObservableCollection<EvidenceInformation> evidenceList = new ObservableCollection<EvidenceInformation>();
                 for (int index = 0; index < result.Tables[0].Rows.Count; index++)

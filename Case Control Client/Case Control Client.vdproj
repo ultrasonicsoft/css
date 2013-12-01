@@ -21,12 +21,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_A3EC6868F8374560A86451947FA7D11D"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_F986596A90D788B83876B976EDE7DEDE"
         "OwnerKey" = "8:_2A56EB17FCAC4CADBB13F9D6C4E752C6"
         "MsmSig" = "8:_UNDEFINED"
@@ -148,26 +142,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A3EC6868F8374560A86451947FA7D11D"
-            {
-            "SourcePath" = "8:..\\CaseControl\\bin\\Debug\\dbsetting.cnf"
-            "TargetName" = "8:dbsetting.cnf"
-            "Tag" = "8:"
-            "Folder" = "8:_074009D42773421B80394337DA586883"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F986596A90D788B83876B976EDE7DEDE"
             {
             "AssemblyRegister" = "3:1"
@@ -175,6 +149,11 @@
             "AssemblyAsmDisplayName" = "8:System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_F986596A90D788B83876B976EDE7DEDE"
+                    {
+                    "Name" = "8:System.Data.SqlServerCe.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Data.SqlServerCe.dll"
             "TargetName" = "8:"
@@ -190,7 +169,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -210,17 +189,6 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_80F84AFAC76046DF9F5844F5656B115D"
-                    {
-                    "Name" = "8:Database"
-                    "AlwaysCreate" = "11:FALSE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_BD843F8548B44F8B922CE13042BA8485"
-                        "Folders"
-                        {
-                        }
-                    }
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_8D60B41063D847318E79B667D8B71564"
                     {
                     "Name" = "8:DataMigration"
@@ -273,7 +241,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Case Control System"
         "ProductCode" = "8:{23E7CE2A-708D-44FC-BA30-B055C78FA058}"
-        "PackageCode" = "8:{76399052-4702-4BE9-8D88-5FE77B0E4D65}"
+        "PackageCode" = "8:{0E57BAF8-DEE8-40FB-A2B9-6B9E9B70F080}"
         "UpgradeCode" = "8:{4D5863CE-AC9F-4D60-933D-D92686928B66}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -403,6 +371,20 @@
             "Transitive" = "11:FALSE"
             "Target" = "8:_2A56EB17FCAC4CADBB13F9D6C4E752C6"
             "Folder" = "8:_2E6B6BB357A14AEFB446ACFDC90D316E"
+            "WorkingFolder" = "8:_074009D42773421B80394337DA586883"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_57421D342FAE401FABBB824727862445"
+            {
+            "Name" = "8:Case Control System"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_2A56EB17FCAC4CADBB13F9D6C4E752C6"
+            "Folder" = "8:_95C32E066A7340DFB95D8E7E4E8434F0"
             "WorkingFolder" = "8:_074009D42773421B80394337DA586883"
             "Icon" = "8:"
             "Feature" = "8:"

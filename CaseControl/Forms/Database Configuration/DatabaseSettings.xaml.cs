@@ -50,11 +50,10 @@ namespace CaseControl
                 Helper.ShowErrorMessageBox("Please provide server name or IP address to configure database");
                 return;
             }
-            if (DBHelper.CreateDatabaseStructure(txtDatabaseServerPath.Text))
+            try
             {
-                string dbsettingFile = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + System.IO.Path.DirectorySeparatorChar.ToString() + Constants.DATABASE_CONFIG;
-                string connectionString = string.Format("server={0}\\SQLExpress;database=Master;integrated Security=SSPI;",txtDatabaseServerPath.Text);
-                File.WriteAllText(dbsettingFile, connectionString);
+                Properties.Settings.Default.ConnectionString = string.Format(System.Configuration.ConfigurationSettings.AppSettings["defaultConStr"], txtDatabaseServerPath.Text, txtDatabaseName.Text, txtUserName.Text, txtPassword.Password);
+                Properties.Settings.Default.Save();
 
                 DBHelper.ConfigureConnectionString();
 
@@ -62,8 +61,9 @@ namespace CaseControl
                 IsDatabaseConfigured = true;
                 this.Close();
             }
-            else
+            catch(Exception ex)
             {
+                Helper.LogException(ex);
                 Helper.ShowErrorMessageBox("Database server configuration failed! Please contact your vendor.", "Configure Database Server");
                 Environment.Exit(0);
             }

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="CaseControl.DatabaseSettings"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Configure Database Settings" Height="150" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+        Title="Configure Database Settings" Height="250" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <Window.Background>
         <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
             <GradientStop Color="#FFD3D3F4" Offset="0" />
@@ -9,10 +9,27 @@
         </LinearGradientBrush>
     </Window.Background>
     <Grid>
-        <Label Content="Enter IP/Name of Server:" Height="28" HorizontalAlignment="Left" Margin="0,24,0,0" Name="label1" VerticalAlignment="Top" />
-        <TextBox Text="localhost" Height="23" HorizontalAlignment="Left" Margin="138,24,0,0" Name="txtDatabaseServerPath" VerticalAlignment="Top" Width="251" TabIndex="0" ForceCursor="True" />
-        <!--<Button Content="Browse" Height="28" HorizontalAlignment="Left" Margin="391,20,0,0" Name="btnBrowse" VerticalAlignment="Top" Width="75" Click="btnBrowse_Click" />-->
-        <Button Content="Configure Database Server" Height="28" HorizontalAlignment="Left" IsDefault="True" Margin="127,71,0,0" Name="btnSave" VerticalAlignment="Top" Width="158" Click="btnSave_Click" />
-        <Button Content="Close" Height="28" HorizontalAlignment="Right" Margin="0,71,89,0" Name="btnClose" VerticalAlignment="Top" Width="75" IsCancel="True" Click="btnClose_Click" />
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Label Content="IP Or Name of Server:" Height="28" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
+        <TextBox Text="localhost" Height="23"  HorizontalAlignment="Left" Name="txtDatabaseServerPath" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" Width="200" TabIndex="0" ForceCursor="True" />
+        <Label Content="Database Name:" Height="28" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
+        <TextBox Text="CaseControlDB" Height="23"  HorizontalAlignment="Left"  Name="txtDatabaseName" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Width="200" TabIndex="0" ForceCursor="True" />
+        <Label Content="Database User Name:" Height="28" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Row="2" Grid.Column="0"/>
+        <TextBox Text="admin" Height="23"  HorizontalAlignment="Left"  Name="txtUserName" VerticalAlignment="Center" Width="200" Grid.Row="2" Grid.Column="1" TabIndex="0" ForceCursor="True" />
+        <Label Content="Password:" Height="28" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Row="3" Grid.Column="0"/>
+        <PasswordBox Password="admin" Height="23"  HorizontalAlignment="Left"  Name="txtPassword" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" Width="200" TabIndex="0" ForceCursor="True" />
+
+        <Button Content="Configure Database Server" Height="28" IsDefault="True" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="4" Name="btnConnectToServer" VerticalAlignment="Center" Width="158" Click="btnSave_Click" />
+        <Button Content="Close" Height="28" HorizontalAlignment="Center"  Name="btnClose" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Width="75" IsCancel="True" Click="btnClose_Click" />
     </Grid>
 </Window>

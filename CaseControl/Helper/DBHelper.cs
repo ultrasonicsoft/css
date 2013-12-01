@@ -12,29 +12,22 @@ namespace CaseControl
 {
     internal class DBHelper
     {
-        //private static string connectionString = "Data Source=" + Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Database\CaseControl_Database.sdf;Persist Security Info=False;";
 
-        internal static SqlConnection DB_CONNECTION = null;
+        //internal static SqlConnection DB_CONNECTION = null;
 
         static DBHelper()
         {
             ConfigureConnectionString();
         }
 
-        internal static string ConnectionString
-        {
-            set
-            {
-                DB_CONNECTION = new SqlConnection(value);
-            }
-        }
-
         internal static void ConfigureConnectionString()
         {
             try
             {
-                DBHelper.ConnectionString = System.Configuration.ConfigurationSettings.AppSettings["defaultConStr"];
-
+                //if (DB_CONNECTION == null)
+                //{
+                //    DB_CONNECTION = new SqlConnection(Properties.Settings.Default.ConnectionString);
+                //}
             }
             catch (Exception ex)
             {
@@ -59,88 +52,6 @@ namespace CaseControl
             return result;
         }
 
-        internal static bool CreateDatabaseStructure(string serverName)
-        {
-            DropDatabase(serverName);
-
-            bool isSuccessful = true;
-            try
-            {
-                StreamReader strReader = new StreamReader(@"QueryFile.txt");
-                string str;
-                bool result = true;
-
-                while ((str = strReader.ReadLine()) != null & result != false)
-                {
-                    if (str != "")
-                    {
-                        result = ExecuteQuery(str, serverName);
-                        if (result == false)
-                        {
-                            isSuccessful = false;
-                            break;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                isSuccessful = false;
-            }
-            return isSuccessful;
-        }
-
-        private static void DropDatabase(string serverName)
-        {
-            string connection = string.Format(@"server={0}\SQLExpress;database=Master;integrated Security=SSPI;", serverName);
-            SqlConnection con = new SqlConnection(connection);
-            bool result = true;
-
-            SqlCommand cmd = new SqlCommand("drop database CaseControlDB", con);
-
-            try
-            {
-                con.Open();
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                result = false;
-            }
-            finally
-            {
-                con.Close();
-            }
-
-        }
-
-        public static bool ExecuteQuery(string sqlQuery, string serverName)
-        {
-            string connection = string.Format(@"server={0}\SQLExpress;database=Master;integrated Security=SSPI;", serverName);
-            SqlConnection con = new SqlConnection(connection);
-            bool result = true;
-
-            SqlCommand cmd = new SqlCommand(sqlQuery, con);
-
-            try
-            {
-                con.Open();
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                result = false;
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                con.Close();
-            }
-
-            return result;
-        }
-
         internal static bool TestConnection(string connectionString)
         {
             bool result = true;
@@ -155,8 +66,8 @@ namespace CaseControl
                 result = false;
                 Helper.LogException(ex);
                 Helper.LogMessage("Connection String:" + connectionString);
-                Helper.ShowErrorMessageBox("Database server is down! Please check your database server or contact your vendor!", "Case Control SysteM");
-                Environment.Exit(0);
+                //Helper.ShowErrorMessageBox("Database server is down! Please check your database server or contact your vendor!", "Case Control SysteM");
+                //Environment.Exit(0);
             }
             return result;
         }
@@ -167,12 +78,12 @@ namespace CaseControl
             try
             {
                 command.CommandText = sqlQuery;
-                command.Connection = DB_CONNECTION;
+                command.Connection = new SqlConnection(Properties.Settings.Default.ConnectionString);
             }
             catch (Exception ex)
             {
                 Helper.LogException(ex);
-                TestConnection(DB_CONNECTION.ConnectionString);
+                TestConnection(Properties.Settings.Default.ConnectionString);
             }
             return command;
         }
@@ -184,22 +95,15 @@ namespace CaseControl
             try
             {
                 command.CommandText = sqlQuery;
-                command.Connection = DB_CONNECTION;
-                DB_CONNECTION.Open();
+                command.Connection = new SqlConnection(Properties.Settings.Default.ConnectionString);
+                command.Connection.Open();
                 scalarValue = command.ExecuteScalar();
             }
             catch (Exception ex)
             {
                 Helper.LogException(ex);
-                TestConnection(DB_CONNECTION.ConnectionString);
+                TestConnection(Properties.Settings.Default.ConnectionString);
 
-            }
-            finally
-            {
-                if (DB_CONNECTION.State != System.Data.ConnectionState.Closed)
-                {
-                    DB_CONNECTION.Close();
-                }
             }
             return scalarValue;
         }
@@ -211,7 +115,7 @@ namespace CaseControl
             {
                 SqlCommand command = new SqlCommand();
                 command.CommandText = sqlQuery;
-                command.Connection = DB_CONNECTION;
+                command.Connection = new SqlConnection(Properties.Settings.Default.ConnectionString);
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 adapter.SelectCommand = command;
                 adapter.Fill(result);
@@ -221,15 +125,8 @@ namespace CaseControl
             catch (Exception ex)
             {
                 Helper.LogException(ex);
-                TestConnection(DB_CONNECTION.ConnectionString);
+                TestConnection(Properties.Settings.Default.ConnectionString);
 
-            }
-            finally
-            {
-                if (DB_CONNECTION.State != System.Data.ConnectionState.Closed)
-                {
-                    DB_CONNECTION.Close();
-                }
             }
             return result;
         }
@@ -240,23 +137,16 @@ namespace CaseControl
             try
             {
                 SqlCommand command = new SqlCommand();
-                command.Connection = DB_CONNECTION;
+                command.Connection = new SqlConnection(Properties.Settings.Default.ConnectionString);
                 command.CommandText = sqlQuery;
-                DB_CONNECTION.Open();
+                command.Connection.Open();
                 totalRowsAffected = command.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
                 Helper.LogException(ex);
-                TestConnection(DB_CONNECTION.ConnectionString);
+                TestConnection(Properties.Settings.Default.ConnectionString);
 
-            }
-            finally
-            {
-                if (DB_CONNECTION.State != System.Data.ConnectionState.Closed)
-                {
-                    DB_CONNECTION.Close();
-                }
             }
             return totalRowsAffected;
         }
@@ -266,23 +156,17 @@ namespace CaseControl
             int totalRowsAffected = 0;
             try
             {
-                command.Connection = DB_CONNECTION;
-                DB_CONNECTION.Open();
+                command.Connection = new SqlConnection(Properties.Settings.Default.ConnectionString);
+                command.Connection.Open();
                 totalRowsAffected = command.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
                 Helper.LogException(ex);
-                TestConnection(DB_CONNECTION.ConnectionString);
+                TestConnection(Properties.Settings.Default.ConnectionString);
 
             }
-            finally
-            {
-                if (DB_CONNECTION.State != System.Data.ConnectionState.Closed)
-                {
-                    DB_CONNECTION.Close();
-                }
-            }
+           
             return totalRowsAffected;
         }
     }

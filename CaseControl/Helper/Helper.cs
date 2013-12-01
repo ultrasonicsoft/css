@@ -12,18 +12,16 @@ namespace CaseControl
     {
         internal static bool IsDatabaseServerConfigured()
         {
-            string databasePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + System.IO.Path.DirectorySeparatorChar.ToString() + Constants.DATABASE_CONFIG;
+            //string databasePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + System.IO.Path.DirectorySeparatorChar.ToString() + Constants.DATABASE_CONFIG;
             
-            if (!File.Exists(databasePath))
-            {
-                Helper.LogMessage("Error: Database setting file not found!");
-                throw new Exception("Database setting file not found!");
-            }
-            string connectionString = File.ReadAllText(databasePath);
-            return !string.IsNullOrEmpty(connectionString);
+            //if (!File.Exists(databasePath))
+            //{
+            //    Helper.LogMessage("Error: Database setting file not found!");
+            //    throw new Exception("Database setting file not found!");
+            //}
+            //string connectionString = File.ReadAllText(databasePath);
+            return DBHelper.TestConnection(Properties.Settings.Default.ConnectionString);
         }
-
-      
 
         internal static void ShowInformationMessageBox(string message, string caption = null)
         {

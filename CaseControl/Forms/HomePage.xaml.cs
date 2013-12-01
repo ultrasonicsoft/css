@@ -57,7 +57,7 @@ namespace CaseControl
 
         public bool ExecuteQuery(string sqlQuery)
         {
-            string connection = @"server=(local)\SQLExpress;database=Master;integrated Security=SSPI;";
+            string connection = Properties.Settings.Default.ConnectionString;
             SqlConnection con = new SqlConnection(connection);
             bool result = true;
 

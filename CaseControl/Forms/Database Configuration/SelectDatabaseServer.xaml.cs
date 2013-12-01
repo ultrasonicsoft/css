@@ -45,9 +45,9 @@ namespace CaseControl
             }
             try
             {
-                string dbsettingFile = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + System.IO.Path.DirectorySeparatorChar.ToString() + Constants.DATABASE_CONFIG;
-                string connectionString = string.Format("server={0}\\SQLExpress;database=Master;integrated Security=SSPI;", txtDatabaseServerPath.Text);
-                File.WriteAllText(dbsettingFile, connectionString);
+                Properties.Settings.Default.ConnectionString = string.Format(System.Configuration.ConfigurationSettings.AppSettings["defaultConStr"], txtDatabaseServerPath.Text,txtDatabaseName.Text,txtUserName.Text,txtPassword.Password);
+                Properties.Settings.Default.Save();
+                
                 DBHelper.ConfigureConnectionString();
 
                 Helper.ShowInformationMessageBox("Database server configured successfully!", "Connect To Database Server");

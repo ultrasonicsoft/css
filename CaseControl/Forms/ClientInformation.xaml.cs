@@ -1728,7 +1728,6 @@ namespace CaseControl
         {
             try
             {
-                string con = DBHelper.DB_CONNECTION.State.ToString(); ;
 
                 bool action = false;
                 if (btnExpandCollapse.Content.ToString() == "Expand All")
